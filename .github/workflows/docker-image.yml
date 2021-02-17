@@ -30,7 +30,7 @@ jobs:
           service_principal: ${{ secrets.AZURE_USER }}
           service_principal_password: ${{ secrets.AZURE_PASSWORD }}
           tenant: ${{ secrets.AZURE_TENANT }}
-          registry: welcomesitecontainer
+          registry: https://welcomesitecontainer.azurecr.io
           repository: welcomesitecontainer
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
@@ -38,7 +38,7 @@ jobs:
           name: welcome-site
           username: ${{ steps.ecr.outputs.username }}
           password: ${{ steps.ecr.outputs.password }}
-          registry: welcomesitecontainer
+          registry: https://welcomesitecontainer.azurecr.io
 #       - name: Publish Docker
 #         uses: elgohr/Publish-Docker-Github-Action@master
 #         with:
