@@ -25,7 +25,7 @@ jobs:
     - name: Publish Docker
       # You may pin to the exact commit or the version.
       # uses: elgohr/Publish-Docker-Github-Action@f7aca2fea76a5218f3c76cd5933c3ba1d8008774
-      uses: ams0/acr-task-github-action@latest
+      uses: ams0/acr-task-github-action@v2
       with:
         service_principal: ${{ secrets.AZURE_USER }}
         service_principal_password: ${{ secrets.AZURE_SECRET }}
