@@ -1,0 +1,20 @@
+<div style=" display: inline-flex; align-items: center;">
+    <AuthorizeView>
+        <Authorized>
+            <NavLink class="btn btn-link" href="Identity/Account/Manage">
+                Hello, @context.User.Identity.Name!
+            </NavLink>
+            <form method="post" action="Identity/Account/LogOut">
+                <button type="submit" class="btn btn-link">Log out</button>
+            </form>
+        </Authorized>
+        <NotAuthorized>
+            <NavLink class="btn btn-link" href="Identity/Account/Register">
+                Register
+            </NavLink>
+            <NavLink class="btn btn-link" href="Identity/Account/Login">
+                Log In
+            </NavLink>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>

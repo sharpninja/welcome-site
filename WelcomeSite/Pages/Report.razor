@@ -1,0 +1,122 @@
+﻿@using Syncfusion.Blazor.RichTextEditor
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Notifications.Internal
+@using Syncfusion.Blazor.Grids
+@using SelectionType = Syncfusion.Blazor.Grids.SelectionType
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.Extensions.Logging
+
+@inject WelcomeSite.Data.ApplicationDbContext DefaultContext
+@inject ILogger<Report> Logger
+
+<h1>Reports</h1>
+<p>
+    <SfGrid DataSource="@Responses" @ref="@DataGrid"
+            AllowResizing="true"
+            AllowSelection="true" AllowSorting="true"
+            AllowFiltering="true" EnableVirtualization="false"
+            AllowGrouping="true"
+            EnableHover="true">
+        <GridGroupSettings Columns="@(new string[] { "Respondent.EmailAddress" })"></GridGroupSettings>
+        <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+        <GridPageSettings PageSize="40"></GridPageSettings>
+        <GridSelectionSettings CheckboxMode="CheckboxSelectionType.Default" Mode="SelectionMode.Row" Type="SelectionType.Multiple"></GridSelectionSettings>
+        <GridColumns>
+            <GridFilterSettings EnableCaseSensitivity="false" Mode="FilterBarMode.Immediate" ShowFilterBarStatus="true"></GridFilterSettings>
+            <GridColumn Type="ColumnType.CheckBox" LockColumn="true" AllowFiltering="false" AllowSorting="false" AllowEditing="true" Width="60"></GridColumn>
+            <GridColumn Field="Respondent.EmailAddress" AutoFit="true" AllowGrouping="true" HeaderText="Respondent" ClipMode="ClipMode.EllipsisWithTooltip">
+                <Template>
+                    @{
+                        var r = (context as SurveyResponse);
+                        var re = r?.Respondent;
+                    }
+                    <span>@(re?.EmailAddress ?? "[None]")</span>
+                </Template>
+            </GridColumn>
+            <GridColumn Field="Question.QuestionTitle" AutoFit="true" HeaderText="Question" ClipMode="ClipMode.EllipsisWithTooltip">
+                <Template>
+                    @{
+                        var r = (context as SurveyResponse);
+                        var q = r?.Question;
+                    }
+                    <span>@(q?.QuestionTitle ?? "Untitled")</span>
+                </Template>
+            </GridColumn>
+            <GridColumn Field="ResponseText" HeaderText="Response" ClipMode="ClipMode.EllipsisWithTooltip">
+                <Template>
+                    @{
+                        var r = (context as SurveyResponse);
+                    }
+                    <span>@(r?.ResponseText ?? "[None]")</span>
+                </Template>
+            </GridColumn>
+        </GridColumns>
+    </SfGrid>
+</p>
+
+<SfButton @ref="@Button"
+          IsPrimary="true"
+          @onclick="@DeleteSelected">Delete Selected</SfButton>
+
+
+@code
+{
+    SfButton Button { get; set; }
+    IEnumerable<SurveyResponse> _responses = null;
+
+    private IEnumerable<SurveyResponse> Responses
+    {
+        get => _responses ??=
+            DefaultContext.SurveyResponses
+                .Where(r => !string.IsNullOrWhiteSpace(r.ResponseText))
+                .Include(r => r.Question)
+                .Include(r => r.Respondent)
+                .OrderBy(r => r.Respondent.EmailAddress)
+                .ThenBy(r => r.Question.QuestionOrder)
+                .ToList()
+                .Where(r => DefaultContext.Entry<SurveyResponse>(r).State != EntityState.Deleted);
+        set => _responses = value;
+    }
+
+    private SfGrid<SurveyResponse> _grid = null;
+
+    private SfGrid<SurveyResponse> DataGrid
+    {
+        get => _grid;
+        set => _grid = value;
+    }
+
+    private void DeleteSelected()
+    {
+        if (DataGrid.SelectedRecords.Any())
+        {
+            var toDelete = DataGrid.SelectedRecords;
+            toDelete.ForEach(td =>
+            {
+                td.Question = null;
+                td.Respondent = null;
+                td.QuestionID = default;
+                td.RespondentID = default;
+            });
+
+            DefaultContext.RemoveRange(toDelete);
+
+            var rows = DefaultContext.SaveChanges(true);
+
+            Logger.LogInformation($"Deleted {rows} SurveyResponses");
+
+            Responses = DefaultContext.SurveyResponses
+                .Where(r => !string.IsNullOrWhiteSpace(r.ResponseText))
+                .Include(r => r.Question)
+                .Include(r => r.Respondent)
+                .OrderBy(r => r.Respondent.EmailAddress)
+                .ThenBy(r => r.Question.QuestionOrder)
+                .ToList()
+                .Where(r => DefaultContext.Entry<SurveyResponse>(r).State != EntityState.Deleted);
+
+            DataGrid.Refresh();
+        }
+    }
+}

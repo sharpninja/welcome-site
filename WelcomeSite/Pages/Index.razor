@@ -1,0 +1,41 @@
+﻿@page "/"
+
+@using WelcomeSite.Services
+
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Components.Routing
+
+@inject NavManager NavManager
+@inject NavigationManager NavigationManager
+@inject IHttpContextAccessor HttpContextAccessor
+
+@renderWidget(CurrentComponent)
+
+@code {
+    private Type CurrentComponent
+    {
+        get;
+        set;
+    }
+
+    protected override void OnInitialized()
+    {
+        CurrentComponent = NavManager.NavigateTo<Welcome>();
+
+        NavManager.RenderWidget += (o, t) =>
+        {
+            CurrentComponent = t;
+            InvokeAsync(this.StateHasChanged);            
+        };
+
+        base.OnInitialized();
+    }
+
+    private RenderFragment renderWidget(Type t) => builder =>
+    {
+        if (t is null) return;
+
+        builder.OpenComponent(0, t);
+        builder.CloseComponent();
+    };
+}

@@ -1,0 +1,55 @@
+﻿@using Syncfusion.Blazor.Grids
+@using SelectionType = Syncfusion.Blazor.Grids.SelectionType
+@using WelcomeSite.Services
+
+@inject WelcomeSite.Data.ApplicationDbContext DefaultContext
+@inject NavigationManager NavigationManager
+@inject NavManager NavManager
+
+<h1>Questions</h1>
+<p>
+    <SfGrid DataSource=@DataSource
+            AllowResizing="true"
+            AllowSelection="true" AllowSorting="true"
+            AllowFiltering="true" EnableVirtualization="true"
+            EnableHover="false">
+        <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+        <GridPageSettings PageSize="40"></GridPageSettings>
+        <GridSelectionSettings CheckboxOnly="true" PersistSelection="true" Type="SelectionType.Multiple"></GridSelectionSettings>
+        <GridColumns>
+            <GridColumn Type="ColumnType.CheckBox" AllowFiltering="false" AllowSorting="false" Width="60"></GridColumn>
+            <GridColumn Field=@nameof(SurveyQuestion.QuestionID) HeaderText="ID" Visible="false" IsPrimaryKey="true"></GridColumn>
+            <GridColumn Field=@nameof(SurveyQuestion.QuestionOrder) HeaderText="Order" Width="100" Visible="true" IsPrimaryKey="false"></GridColumn>
+            <GridColumn Field=@nameof(SurveyQuestion.QuestionTitle) HeaderText="Title" ClipMode="ClipMode.EllipsisWithTooltip">
+                <Template>
+                    @{
+                        var q = (context as SurveyQuestion);
+                    }
+                    <a href="#" @onclick="@(() => NavManager.NavigateTo<Editor>(q.QuestionID))">@(q.QuestionTitle ?? "Untitled")</a>
+                </Template>
+            </GridColumn>
+        </GridColumns>
+    </SfGrid>
+</p>
+
+<button class="btn btn-info" @onclick='@OnClick'>Add New Question</button>
+
+@code
+{
+    private IEnumerable<SurveyQuestion> _dataSource = null;
+
+    public IEnumerable<SurveyQuestion> DataSource => _dataSource ??=
+        DefaultContext.SurveyQuestions.OrderBy(q => q.QuestionOrder);
+
+    protected override void OnInitialized()
+    {
+        _dataSource ??= DefaultContext.SurveyQuestions.OrderBy(q => q.QuestionOrder);
+        base.OnInitialized();
+    }
+
+    public void OnClick()
+    {
+        //NavigationManager.NavigateTo("/editor");
+        NavManager.NavigateTo<Editor>();
+    }
+}

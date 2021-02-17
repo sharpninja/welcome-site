@@ -1,0 +1,24 @@
+﻿@using Syncfusion.Blazor.RichTextEditor
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Notifications.Internal
+
+@using WelcomeSite.Services;
+
+@inject NavManager NavManager
+
+<p>
+    <SfTextBox @bind-Value="@QuestionTitle" FloatLabelType="@FloatLabelType.Auto" Placeholder="Title" />
+</p>
+<p>
+    <SfRichTextEditor @ref="@Editor" @onchange="@OnChange" EditorMode="@EditorMode.Markdown" @bind-Value="@QuestionText"/>
+</p>
+<p>
+    <SfNumericTextBox @bind-Value="@QuestionOrder" CssClass="@QuestionOrderClass" FloatLabelType="@FloatLabelType.Auto" Placeholder="Order" />
+</p>
+<SfButton @onclick="@Save" Disabled="@IsDisabled" IconPosition="@IconPosition.Left" IconCss="e-icons e-save" IsPrimary="true">Save</SfButton>
+
+<SfToast @ref="@Toast" Title="Result" Icon="e-save">
+    <ToastPosition X="Right" Y="Bottom"></ToastPosition>    
+</SfToast>

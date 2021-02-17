@@ -1,0 +1,28 @@
+﻿@using Syncfusion.Blazor.RichTextEditor
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Notifications.Internal
+
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+    <fieldset class="form-group">
+        <h3>@QuestionTitle</h3>
+
+        <div style="font-size: large">
+            @ConvertStringToMarkupString(QuestionText)
+        </div>
+
+        <p>
+            <SfRichTextEditor @ref="@Editor" @onchange="@OnChange" EditorMode="@EditorMode.Markdown" @bind-Value="@ResponseText" />
+        </p>
+        <p>
+            <SfTextBox @bind-Value="@RespondentEmail" FloatLabelType="@FloatLabelType.Auto" Placeholder="Email Address" />
+        </p>
+        <p>
+            <SfButton @onclick="Back" Disabled="@(DefaultContext.LowestOrder == Question.QuestionOrder)" IconPosition="@IconPosition.Left" IconCss="e-icons e-back" IsPrimary="false">Back</SfButton>
+            <SfButton @onclick="Save" IconPosition="@IconPosition.Left" IconCss="e-icons e-save" IsPrimary="true">Save</SfButton>
+            <SfButton @onclick="SaveNext" Disabled="@(DefaultContext.HighestOrder == Question.QuestionOrder)" IconPosition="@IconPosition.Left" IconCss="e-icons e-next" IsPrimary="false">Next</SfButton>
+        </p>
+    </fieldset>

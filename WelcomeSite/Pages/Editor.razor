@@ -1,0 +1,33 @@
+﻿@using System.Linq
+
+<h1>Editor</h1>
+
+<EditQuestion @bind-QuestionID="@_questionId">
+
+</EditQuestion>
+
+@code {        
+
+    [Inject]
+    public WelcomeSite.Services.NavManager NavManager
+    {
+        get;
+        set;
+    }
+
+    protected override void OnInitialized()
+    {
+        _questionId = NavManager.Args.Cast<Guid>().FirstOrDefault();
+        base.OnInitialized();
+    }
+
+    private Guid _questionId { get; set; }
+
+
+    [Parameter]
+    public String QuestionID
+    {
+        get => _questionId.ToString() ?? Guid.Empty.ToString();
+        set => _questionId = Guid.Parse(value ?? Guid.Empty.ToString());
+    }
+}

@@ -1,0 +1,111 @@
+﻿@using Syncfusion.Blazor;
+
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Popups
+
+@inject BrowserService Service
+@inject IJSRuntime JSRuntime
+
+<div class="@Toprowclass">
+    <span id="hamburger" @onclick="@Toggle" class="@Hamburgerclass"></span>
+    @if (this.ShowButton)
+    {
+        <span class="e-icons e-settings" @onclick="@OnBtnClick"></span>
+    }
+    <LoginDisplay />
+</div>
+<SfSidebar @ref="SidebarObj" Width="250px" EnablePersistence="true" Target=".main-content"
+           MediaQuery="(min-width:600px)"
+           Position="@Position" HtmlAttributes="@HtmlAttribute" @bind-IsOpen="SidebarToggle">
+    <ChildContent>
+        <div class="title-header">
+            <div style="display:inline-block"> Site Menu </div>
+            <span id="close" @onclick="@Close" class="e-icons e-close"></span>
+        </div>
+        <div style="padding-left: 10px;padding-top: 15px;">
+            @if (!IsLoggedIn)
+            {
+                <div class="alert alert-info m-2 font-weight-bold" style="font-size: large;"><a href="Identity/Account/Login">Log In</a> to Submit Survey!</div>
+            }
+            <div class="action px-4">
+                <button class="btn btn-link m-2" id="action-button" @onclick="@GoHome">Home</button>
+            </div>
+            <div class="action px-4">
+                <button class="btn btn-link m-2" id="action-button" @onclick="@GoLinks">Links</button>
+            </div>
+            @if (IsLoggedIn)
+            {
+                <div class="action px-4">
+                    <button class="btn btn-link m-2" id="action-button" @onclick="@GoSurvey">Survey</button>
+                </div>
+            }
+            @if (IsAdminUser)
+            {
+                <div class="action px-4">
+                    <button class="btn btn-link m-2" id="action-button" @onclick="@GoList">List Questions</button>
+                </div>
+                <div class="action px-4">
+                    <button class="btn btn-link m-2" id="action-button" @onclick="@GoResults">View Results</button>
+                </div>
+            }
+        </div>
+    </ChildContent>
+</SfSidebar>
+
+<SfDialog @ref="Dialog" Target="#target" Width="250px" MinHeight="250px" ShowCloseIcon="true" @bind-Visible="Visibility">
+    <DialogTemplates>
+        <Header>Sidebar Settings</Header>
+        <Content>
+            <p>
+                <div class="column">
+                    <!-- RadioButton element declaration -->
+                    <SfRadioButton @bind-Checked="@IsChecked" Value="true" Label="Left" Name="State" TChecked="bool"></SfRadioButton>
+                </div>
+                <div class="column">
+                    <!-- RadioButton element declaration -->
+                    <SfRadioButton @bind-Checked="@IsChecked" Value="false" Label="Right" Name="State" TChecked="bool"></SfRadioButton>
+                </div>
+            </p>
+        </Content>
+    </DialogTemplates>
+    <DialogEvents OnOpen="@DialogOpen" Closed="@DialogClose"></DialogEvents>
+    <DialogButtons>
+        <DialogButton IsPrimary="true" Content="Save" OnClick="@OnBtnSaveClick" />
+        <DialogButton IsPrimary="false" Content="Cancel" OnClick="@OnCancel" />
+    </DialogButtons>
+    <DialogPositionData X="@CenterX" Y="@CenterY" />
+</SfDialog>
+
+@code
+{
+    private bool IsLoggedIn { get; set; } = false;
+    private bool IsAdminUser { get; set; } = false;
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private async Task SetIsAdminUser()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            IsLoggedIn = true;
+            IsAdminUser = user.Identity.Name switch
+            {
+                "ninja@thesharp.ninja" => true,
+                _ => false
+            };
+
+            StateHasChanged();
+        }
+        else
+        {
+            IsLoggedIn = false;
+            IsAdminUser = false;
+            StateHasChanged();
+        }
+    }
+}
