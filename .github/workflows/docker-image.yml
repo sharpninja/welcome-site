@@ -25,8 +25,8 @@ jobs:
         uses: sharpninja/Publish-Docker-Github-Action@testing
         with:
           name: welcome-site
-          username: ${{ steps.ecr.outputs.username }}
-          password: ${{ steps.ecr.outputs.password }}
+          username: ${{ secrets.AZURE_USER }}
+          password: ${{ secrets.AZURE_PASSWORD }}
           registry: https://welcomesitecontainer.azurecr.io
 #       - name: Publish Docker
 #         uses: elgohr/Publish-Docker-Github-Action@master
