@@ -52,10 +52,13 @@ namespace WelcomeSite
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
               .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddAuthentication(options => { /* Authentication options */ })
+            services.AddAuthentication(options => 
+            {
+                /* Authentication options */
+            })
                 .AddGitHub(options =>
                 {
-                    options.CallbackPath = $"https://{Configuration["hostname"]}/callback-github";
+                    options.CallbackPath = $"/callback-github";
                     options.ClientId = "91e2fc985b12e8319456";
                     options.ClientSecret = "b8e7509ea8f1114c6b3e895f11fc1c0de39ce169";
                 });
