@@ -11,21 +11,11 @@ jobs:
   build:
     runs-on: ubuntu-latest    
 
-#     steps:
-#     - uses: actions/checkout@v2
-#     - name: Build the Docker image
-#       run: cd WelcomeSite; docker build . --file Dockerfile --tag welcome-site:$(date +%s)
-
-#   publish:
-#     needs: build
-#     runs-on: ubuntu-latest
-    environment: Azure
-    
     steps:
       - uses: actions/checkout@master
       - name: Login to ACR
         id: ecr
-        uses: elgohr/acr-login-action@master
+        uses: sharpninja/acr-login-action@master
         with:
           service_principal: ${{ secrets.AZURE_USER }}
           service_principal_password: ${{ secrets.AZURE_PASSWORD }}
@@ -33,7 +23,7 @@ jobs:
           registry: https://welcomesitecontainer.azurecr.io
           repository: welcomesitecontainer
       - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
+        uses: sharpninja/Publish-Docker-Github-Action@master
         with:
           name: welcome-site
           username: ${{ steps.ecr.outputs.username }}
