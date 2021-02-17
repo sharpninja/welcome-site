@@ -28,11 +28,11 @@ jobs:
       uses: ams0/acr-task-github-action@v2
       with:
         service_principal: ${{ secrets.AZURE_USER }}
-        service_principal_password: ${{ secrets.AZURE_SECRET }}
+        service_principal_password: ${{ secrets.AZURE_PASSWORD }}
         tenant: ${{ secrets.AZURE_TENANT }}
         registry: welcomesitecontainer
         repository: welcomesitecontainer
-        image: welcome-site:$(date +%s)
+        image: welcome-site
         git_access_token: ${{ secrets.GITHUB_TOKEN }}
         folder: WelcomeSite
         dockerfile: Dockerfile
