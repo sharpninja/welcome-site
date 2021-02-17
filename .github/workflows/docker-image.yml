@@ -28,6 +28,7 @@ jobs:
           username: ${{ secrets.AZURE_USER }}
           password: ${{ secrets.AZURE_PASSWORD }}
           registry: https://welcomesitecontainer.azurecr.io
+          ACTIONS_STEP_DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG }}
 #       - name: Publish Docker
 #         uses: elgohr/Publish-Docker-Github-Action@master
 #         with:
