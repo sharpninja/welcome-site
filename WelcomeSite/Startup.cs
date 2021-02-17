@@ -43,23 +43,11 @@ namespace WelcomeSite
             services.AddSyncfusionBlazor();
 
 
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            //    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            //})
-            //    .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
-
             services.AddControllersWithViews(options =>
             {
-                //var policy = new AuthorizationPolicyBuilder()
-                //    .RequireAuthenticatedUser()
-                //    .Build();
-                //options.Filters.Add(new AuthorizeFilter(policy));
             });
 
             services.AddRazorPages();
-            //     .AddMicrosoftIdentityUI();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
               .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -67,23 +55,12 @@ namespace WelcomeSite
             services.AddAuthentication(options => { /* Authentication options */ })
                 .AddGitHub(options =>
                 {
-                    options.CallbackPath = "/callback-github";
+                    options.CallbackPath = $"https://{hostname}/callback-github";
                     options.ClientId = "91e2fc985b12e8319456";
                     options.ClientSecret = "b8e7509ea8f1114c6b3e895f11fc1c0de39ce169";
                 });
-            //services.AddAuthorization(options =>
-            //{
-            //    options.DefaultPolicy =
-            //        new AuthorizationPolicyBuilder()
-            //            .Build();
-
-            //    // By default, all incoming requests will be authorized according to the default policy
-            //    options.FallbackPolicy = options.DefaultPolicy;
-
-            //});
 
             services.AddServerSideBlazor();
-            //.AddMicrosoftIdentityConsentHandler();
 
             services.AddScoped<BrowserService>();
 
@@ -120,27 +97,13 @@ namespace WelcomeSite
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // set here access denied path.
                 options.SlidingExpiration = true; // resets cookie expiration if more than half way through lifespan
                 options.ExpireTimeSpan = TimeSpan.FromDays(30); // cookie validation time
-                options.Cookie.Name = "myExampleCookieName";
+                options.Cookie.Name = "WelcomeSiteCookie";
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //app.Use(async (context, next) =>
-            //{
-            //    try
-            //    {
-            //        await next();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        var Log = app.ApplicationServices.GetService<ILogger<Startup>>();
-            //        Log.LogError(ex, "OWIN error.");
-            //    }
-
-            //});
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -159,6 +122,8 @@ namespace WelcomeSite
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseHttpsRedirection();
 
             app.UseEndpoints(endpoints =>
             {
