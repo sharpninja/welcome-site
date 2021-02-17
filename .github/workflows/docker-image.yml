@@ -12,15 +12,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
-#       - name: Login to ACR
-#         id: ecr
-#         uses: sharpninja/acr-login-action@master
-#         with:
-#           service_principal: ${{ secrets.AZURE_USER }}
-#           service_principal_password: ${{ secrets.AZURE_PASSWORD }}
-#           tenant: ${{ secrets.AZURE_TENANT }}
-#           registry: https://welcomesitecontainer.azurecr.io
-#           repository: welcomesitecontainer
       - name: Publish to Registry
         uses: sharpninja/Publish-Docker-Github-Action@testing
         with:
@@ -28,17 +19,3 @@ jobs:
           username: ${{ secrets.AZURE_USER }}
           password: ${{ secrets.AZURE_PASSWORD }}
           registry: https://welcomesitecontainer.azurecr.io
-          ACTIONS_STEP_DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG }}
-#       - name: Publish Docker
-#         uses: elgohr/Publish-Docker-Github-Action@master
-#         with:
-#           name: welcomesitecontainer.azurecr.io
-#           username: ${{ secrets.AZURE_USER }}
-#           password: ${{ secrets.AZURE_PASSWORD }}
-#           tenant: ${{ secrets.AZURE_TENANT }}
-#           registry: welcomesitecontainer
-#           repository: welcomesitecontainer
-#           image: welcome-site
-#           git_access_token: ${{ secrets.GITHUB_TOKEN }}
-#           folder: WelcomeSite
-#           dockerfile: Dockerfile
