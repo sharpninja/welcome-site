@@ -20,6 +20,7 @@ using System;
 using WelcomeSite.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace WelcomeSite
 {
@@ -102,6 +103,9 @@ namespace WelcomeSite
                 options.ExpireTimeSpan = TimeSpan.FromDays(30); // cookie validation time
                 options.Cookie.Name = "WelcomeSiteCookie";
             });
+
+            services.AddDataProtection()
+                .DisableAutomaticKeyGeneration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
