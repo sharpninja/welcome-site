@@ -55,7 +55,7 @@ namespace WelcomeSite
             services.AddAuthentication(options => { /* Authentication options */ })
                 .AddGitHub(options =>
                 {
-                    options.CallbackPath = $"https://{hostname}/callback-github";
+                    options.CallbackPath = $"https://{Configuration["hostname"]}/callback-github";
                     options.ClientId = "91e2fc985b12e8319456";
                     options.ClientSecret = "b8e7509ea8f1114c6b3e895f11fc1c0de39ce169";
                 });
