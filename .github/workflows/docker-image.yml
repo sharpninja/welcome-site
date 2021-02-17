@@ -14,6 +14,8 @@ jobs:
       - uses: actions/checkout@master
       - name: Publish to Registry
         uses: sharpninja/Publish-Docker-Github-Action@testing
+        env:
+          ACTIONS_STEP_DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG }}
         with:
           name: welcome-site
           username: ${{ secrets.AZURE_USER }}
