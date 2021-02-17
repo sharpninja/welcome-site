@@ -16,7 +16,6 @@ jobs:
         uses: sharpninja/Publish-Docker-Github-Action@testing
         env:
           ACTIONS_STEP_DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG }}
-        with:
           name: welcome-site
           username: ${{ secrets.AZURE_USER }}
           password: ${{ secrets.AZURE_PASSWORD }}
