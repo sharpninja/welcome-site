@@ -1,0 +1,41 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest    
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag welcome-site:$(date +%s)
+
+  publish:
+  
+    runs-on: ubuntu-latest
+    environment: Azure
+    
+    steps:
+    - name: Publish Docker
+      # You may pin to the exact commit or the version.
+      # uses: elgohr/Publish-Docker-Github-Action@f7aca2fea76a5218f3c76cd5933c3ba1d8008774
+      uses: elgohr/Publish-Docker-Github-Action@3.02
+      env: # Or as an environment variable
+        azure_repo: ${{ secrets.AZURE_REPO }}
+        azure_user: ${{ secrets.AZURE_USER }}
+        azure_secret: ${{ secrets.AZURE_SECRET }}
+      with:
+        # The name of the image you would like to push
+        name: $(docker-name)
+        # The login username for the registry
+        username: $(azure_user)
+        # The login password for the registry
+        password: $(azure_secret)
+        # Use registry for pushing to a custom registry
+        registry: $(azure_repo)
