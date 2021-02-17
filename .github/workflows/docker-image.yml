@@ -19,4 +19,5 @@ jobs:
           name: welcome-site
           username: ${{ secrets.AZURE_USER }}
           password: ${{ secrets.AZURE_PASSWORD }}
+          tenantId: ${{ secrets.AZURE_TENANT }}
           registry: https://welcomesitecontainer.azurecr.io
