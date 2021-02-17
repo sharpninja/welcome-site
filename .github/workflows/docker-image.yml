@@ -13,15 +13,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
-      - name: Login to ACR
-        id: ecr
-        uses: sharpninja/acr-login-action@master
-        with:
-          service_principal: ${{ secrets.AZURE_USER }}
-          service_principal_password: ${{ secrets.AZURE_PASSWORD }}
-          tenant: ${{ secrets.AZURE_TENANT }}
-          registry: https://welcomesitecontainer.azurecr.io
-          repository: welcomesitecontainer
+#       - name: Login to ACR
+#         id: ecr
+#         uses: sharpninja/acr-login-action@master
+#         with:
+#           service_principal: ${{ secrets.AZURE_USER }}
+#           service_principal_password: ${{ secrets.AZURE_PASSWORD }}
+#           tenant: ${{ secrets.AZURE_TENANT }}
+#           registry: https://welcomesitecontainer.azurecr.io
+#           repository: welcomesitecontainer
       - name: Publish to Registry
         uses: sharpninja/Publish-Docker-Github-Action@master
         with:
