@@ -20,4 +20,4 @@ jobs:
           username: ${{ secrets.AZURE_USER }}
           password: ${{ secrets.AZURE_PASSWORD }}
           tenantId: ${{ secrets.AZURE_TENANT }}
-          registry: https://welcomesitecontainer.azurecr.io
+          registry_url: https://welcomesitecontainer.azurecr.io
