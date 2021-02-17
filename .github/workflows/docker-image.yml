@@ -11,14 +11,14 @@ jobs:
   build:
     runs-on: ubuntu-latest    
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: cd WelcomeSite; docker build . --file Dockerfile --tag welcome-site:$(date +%s)
+#     steps:
+#     - uses: actions/checkout@v2
+#     - name: Build the Docker image
+#       run: cd WelcomeSite; docker build . --file Dockerfile --tag welcome-site:$(date +%s)
 
-  publish:
-    needs: build
-    runs-on: ubuntu-latest
+#   publish:
+#     needs: build
+#     runs-on: ubuntu-latest
     environment: Azure
     
     steps:
