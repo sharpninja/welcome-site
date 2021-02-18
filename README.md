@@ -57,7 +57,7 @@ from Microsoft.
 
 ### Notes
 
-* Use [User Secrets Locally](blob/master/WelcomeSite/Secrets.md) for local development.
+* Use [User Secrets Locally](WelcomeSite/Secrets.md) for local development.
 * Create [Secrets in GitHub]() for GitHub Actions
 	* AZURE_PASSWORD: Client Secret for pushing to Azure Container Registry
 	* AZURE_USERNAME: Client Login for pushing to Azure Container Registry

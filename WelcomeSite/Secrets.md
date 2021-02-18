@@ -20,5 +20,5 @@ You need to setup [User Secrets]() to develop the code.  You should add the foll
 ___These key-value pairs should be added to the AppSettings in the configuration blade of the Azure App Service.  Do not add them
 to your appSettings.json files and put them in Git!___
 
-[README](README.md)
+[README](../README.md)
 
