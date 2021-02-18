@@ -26,6 +26,7 @@ using Azure;
 using Azure.Core;
 using System.Threading;
 using Microsoft.Azure.Storage.Blob;
+using Microsoft.AspNetCore.Http;
 
 namespace WelcomeSite
 {
@@ -109,7 +110,13 @@ namespace WelcomeSite
                 options.Cookie.Name = "WelcomeSiteCookie";
             });
 
-            var blobStorageUri = Configuration["BlobStorage"];
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.Secure = CookieSecurePolicy.SameAsRequest;
+                options.Secure = CookieSecurePolicy.Always;
+            });
+
+                var blobStorageUri = Configuration["BlobStorage"];
             var keyVaultId = Configuration["KeyVaultUri"];
             var tenantId = Configuration["tenantId"];
             var clientId = Configuration["clientId"];
