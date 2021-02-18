@@ -9,11 +9,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WelcomeSite
 {
-    [Index(nameof(EmailAddress), IsUnique = true)]
+    /// <summary>
+    /// Respondent is an individual responding to the survey.
+    /// </summary>
     public class Respondent
     {
         private Guid respondentID = Guid.NewGuid();
 
+        /// <summary>
+        /// Primary Key
+        /// </summary>
         [Key]
         public Guid RespondentID
         {
@@ -27,12 +32,30 @@ namespace WelcomeSite
                 }
             }
         }
+
+        /// <summary>
+        /// Creation <seealso cref="DateTimeOffset"/>.
+        /// </summary>
         public DateTimeOffset RespondentCreatedDateTimeUtc { get; set; } = DateTimeOffset.UtcNow;
+
+        /// <summary>
+        /// Email address of the User Identity
+        /// associated with this Respondent.
+        /// </summary>
         public string EmailAddress { get; set; }
+
+        /// <summary>
+        /// Preferences stored in JSON format.
+        /// </summary>
         public string Preferneces { get; set; }
 
+        /// <summary>
+        /// List of <see cref="Response"/> from this
+        /// Respondent.
+        /// </summary>
         public List<SurveyResponse> Responses { get; set; }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);

@@ -1,50 +1,35 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
-using Newtonsoft.Json;
+using Syncfusion.Licensing;
 
 namespace WelcomeSite
 {
     public static class Program
     {
-        //private static readonly SurveyQuestion[] surveyQuestions = new[]
-        //{
-        //    new SurveyQuestion
-        //    {
-        //        QuestionText = "What is your name?",
-        //        QuestionIsPrivate = true
-        //    },
-        //    new SurveyQuestion
-        //    {
-        //        QuestionText = "What is your role on the team?"
-        //    },
-        //    new SurveyQuestion
-        //    {
-        //        QuestionText = "What is something I should know about you?",
-        //        QuestionIsPrivate = true
-        //    },
-        //    new SurveyQuestion
-        //    {
-        //        QuestionText = "How would you improve this survey website?"
-        //    }
-        //};
-
+        /// <summary>
+        /// Entry Point
+        /// </summary>
+        /// <param name="args">Command Line Arguments</param>
         static void Main(string[] args)
         {
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mzk5NzAyQDMxMzgyZTM0MmUzMElrTWYvUERRNlBVLzE3M3FXZ1ZvZzR5RW9lRU5MYUJOUTVUZkI1QXROUU09");
-
+            // Create Web App Host
             var host = CreateHostBuilder(args).Build();
 
+            // Set Service Provider for App
             Startup.ServiceProvider = host.Services;
 
+            // Register SyncFusion
+            SyncfusionLicenseProvider.RegisterLicense(Startup.ApplicationConfiguration["SFKey"]);
+
+            // Start the Web App
             host.Run();
         }
 
+        /// <summary>
+        /// Build the Web App Host.
+        /// </summary>
+        /// <param name="args">Command Line Arguments</param>
+        /// <returns><seealso cref="IHostBuilder"/></returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>

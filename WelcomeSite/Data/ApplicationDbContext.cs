@@ -10,13 +10,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace WelcomeSite.Data
 {
+    /// <summary>
+    /// <seealso cref="DbContext"/> instance for the application.
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(
-            DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
-
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
+            : base(options)
+        {  }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,13 +48,32 @@ namespace WelcomeSite.Data
                 .HasConstraintName("FK_SurveyResponse_SurveyQuestion");            
         }
 
+        /// <summary>
+        /// Collection of <see cref="Respondent"/> instances.
+        /// </summary>
         public DbSet<Respondent> Respondents { get; set; }
+
+        /// <summary>
+        /// Collection of <see cref="SurveyQuestion"/> instances.
+        /// </summary>
         public DbSet<SurveyQuestion> SurveyQuestions { get; set; }
+
+        /// <summary>
+        /// Collection of <see cref="SurveyResponse"/> instances.
+        /// </summary>
         public DbSet<SurveyResponse> SurveyResponses { get; set; }
+
+        /// <summary>
+        /// Helper to get the next <see cref="SurveyQuestion.QuestionOrder"/>.
+        /// </summary>
         public decimal NextQuestionOrder => SurveyQuestions.Any()
             ? SurveyQuestions.Max(sq => sq.QuestionOrder) + 1.0m
             : 0.0m;
 
+        /// <summary>
+        /// Helper Property for identifying the 
+        /// Last <see cref="SurveyQuestion"/>.
+        /// </summary>
         public decimal HighestOrder
         {
             get
@@ -65,6 +85,10 @@ namespace WelcomeSite.Data
             }
         }
 
+        /// <summary>
+        /// Helper Property for identifying the 
+        /// First <see cref="SurveyQuestion"/>.
+        /// </summary>
         public decimal LowestOrder
         {
             get

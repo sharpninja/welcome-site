@@ -34,22 +34,3 @@
 
 <button class="btn btn-info" @onclick='@OnClick'>Add New Question</button>
 
-@code
-{
-    private IEnumerable<SurveyQuestion> _dataSource = null;
-
-    public IEnumerable<SurveyQuestion> DataSource => _dataSource ??=
-        DefaultContext.SurveyQuestions.OrderBy(q => q.QuestionOrder);
-
-    protected override void OnInitialized()
-    {
-        _dataSource ??= DefaultContext.SurveyQuestions.OrderBy(q => q.QuestionOrder);
-        base.OnInitialized();
-    }
-
-    public void OnClick()
-    {
-        //NavigationManager.NavigateTo("/editor");
-        NavManager.NavigateTo<Editor>();
-    }
-}

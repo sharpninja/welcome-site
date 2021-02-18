@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WelcomeSite.Pages
+namespace WelcomeSite.Shared
 {
-    public partial class Contact
+    public partial class LoginDisplay
     {
+
     }
 }

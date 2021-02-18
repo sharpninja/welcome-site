@@ -151,7 +151,7 @@ namespace WelcomeSite.Shared
                     Toast.Content = Status;
                     Toast.Show();
 
-                    NavManager.NavigateTo<WelcomeSite.Pages.ListQuestions>();
+                    NavManager.NavigateTo<ListQuestions>();
                 }
             }
         }

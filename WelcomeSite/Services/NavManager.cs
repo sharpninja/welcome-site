@@ -49,7 +49,6 @@ namespace WelcomeSite.Services
                 [nameof(Thanks)] = typeof(Thanks),
                 [nameof(Survey)] = typeof(Survey),
                 [nameof(Editor)] = typeof(Editor),
-                [nameof(Contact)] = typeof(Contact),
                 [nameof(Links)] = typeof(Links),
                 [nameof(Welcome)] = typeof(Welcome),
             };
