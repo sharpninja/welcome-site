@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.JSInterop;
 
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.DataProtection;
 
 using Syncfusion.Blazor;
 
@@ -20,7 +20,12 @@ using System;
 using WelcomeSite.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.DataProtection;
+using Azure.Identity;
+using System.IO;
+using Azure;
+using Azure.Core;
+using System.Threading;
+using Microsoft.Azure.Storage.Blob;
 
 namespace WelcomeSite
 {
@@ -104,8 +109,20 @@ namespace WelcomeSite
                 options.Cookie.Name = "WelcomeSiteCookie";
             });
 
-            services.AddDataProtection()
-                .DisableAutomaticKeyGeneration();
+            var blobStorageUri = Configuration["BlobStorage"];
+            var keyVaultId = Configuration["KeyVaultUri"];
+            var tenantId = Configuration["tenantId"];
+            var clientId = Configuration["clientId"];
+            var keyVaultSecret = Configuration["KeyVaultSecret"];
+            var keyVaultSecretCredential = new ClientSecretCredential(tenantId, clientId, keyVaultSecret);
+            var resolver = new Azure.Security.KeyVault.Keys.Cryptography.KeyResolver(keyVaultSecretCredential);
+            var cloudBlobContainer = new CloudBlobContainer(new Uri(blobStorageUri));
+
+            var dataProtection = services.AddDataProtection();
+
+            dataProtection
+                .PersistKeysToAzureBlobStorage(cloudBlobContainer,"Keys")
+                .ProtectKeysWithAzureKeyVault(keyVaultId, resolver);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
