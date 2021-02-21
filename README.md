@@ -1,6 +1,7 @@
 # Welcome Site
 
 ![Docker Image CI](https://github.com/sharpninja/welcome-site/workflows/Docker%20Image%20CI/badge.svg?branch=master)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/4e01573860d346198f982e0d10f37a5e)](https://www.codacy.com/gh/sharpninja/welcome-site/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sharpninja/welcome-site&amp;utm_campaign=Badge_Grade)
 
 I put this project together as a simple way to post a site to introduce myself to my new coworkers 
 and to get to know them.
