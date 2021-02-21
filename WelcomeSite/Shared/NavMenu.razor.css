@@ -188,12 +188,16 @@
 }
 
 #sb-content-header {
-    display: none
+    display: none;
 }
 
 /* sample-level styles */
 
 /* for newTab support */
+
+.description-section {
+    padding-top: 0;
+}
 
 .sf-new .sb-header, .sf-new .sb-bread-crumb, .sf-new #action-description, .sf-new .sb-action-description, .sf-new .e-tab-header, .sf-new .description-section, .sf-new #description-section, .sf-new #description, .sf-new #navigation-btn, .sf-new .sb-toolbar-splitter, .sf-new .sb-footer, .sf-new #left-sidebar, .sb-component-name {
     display: none
@@ -211,11 +215,7 @@
     height: 100% !important;
 }
 
-.description-section {
-    padding-top: 0;
-}
-
-.sf-new .container-fluid, .sf-new .container-fluid .control-section, #sidebar-section, description-section sb-rightpane-padding {
+.sf-new .container-fluid, .sf-new .container-fluid .control-section, #sidebar-section, .description-section .sb-rightpane-padding {
     padding: 0;
 }
 
