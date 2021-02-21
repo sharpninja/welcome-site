@@ -24,8 +24,12 @@ namespace WelcomeSite.Shared
         private IEnumerable<SurveyResponse> Responses
         {
             // Populate Responses if necessary.
-            get => _responses ??=
-                DefaultContext.SurveyResponses
+            get => _responses ??= GetResponses();                
+            set => _responses = value;
+        }
+
+        private IEnumerable<SurveyResponse> GetResponses() =>
+            DefaultContext.SurveyResponses
                     .Where(r => !string.IsNullOrWhiteSpace(r.ResponseText))
                     .Include(r => r.Question)
                     .Include(r => r.Respondent)
@@ -33,8 +37,6 @@ namespace WelcomeSite.Shared
                     .ThenBy(r => r.Question.QuestionOrder)
                     .ToList()
                     .Where(r => DefaultContext.Entry<SurveyResponse>(r).State != EntityState.Deleted);
-            set => _responses = value;
-        }
 
         public SfButton Button
         {
@@ -71,14 +73,7 @@ namespace WelcomeSite.Shared
 
                 Logger.LogInformation($"Deleted {rows} SurveyResponses");
 
-                _responses = DefaultContext.SurveyResponses
-                    .Where(r => !string.IsNullOrWhiteSpace(r.ResponseText))
-                    .Include(r => r.Question)
-                    .Include(r => r.Respondent)
-                    .OrderBy(r => r.Respondent.EmailAddress)
-                    .ThenBy(r => r.Question.QuestionOrder)
-                    .ToList()
-                    .Where(r => DefaultContext.Entry<SurveyResponse>(r).State != EntityState.Deleted);
+                _responses = GetResponses();
 
                 _grid.Refresh();
             }

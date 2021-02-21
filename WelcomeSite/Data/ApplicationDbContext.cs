@@ -93,7 +93,10 @@ namespace WelcomeSite.Data
         {
             get
             {
-                if (!SurveyQuestions.Any()) return 0.0m;
+                if (!SurveyQuestions.Any())
+                {
+                    return 0.0m;
+                }
 
                 return SurveyQuestions
                     .Min(q => q.QuestionOrder);
