@@ -25,7 +25,7 @@ free-tier Linux-based [Azure App Service](https://azure.microsoft.com/en-us/serv
 
 * Change the Markdown files in the `wwwroot` folder.
 * Add questions to the Survey.
-* Modify `shared/NavMenu.razor` to modify the menu.
+* Change `shared/NavMenu.razor` to modify the menu.
 
 ## Requirements
 
@@ -34,22 +34,22 @@ The application is designed to utilize the features of Microsoft Azure.
 ### Services
 
 * [GitHub](https://github.com): 
-	Provides source control and CI/CD pipeline.
+    Provides source control and CI/CD pipeline.
 * [GitHub Authentication](https://docs.github.com/en/github/authenticating-to-github/about-authentication-to-github): 
-	Provides OAuth2 Login for Users.
+    Provides OAuth2 Login for Users.
 * [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/): 
-	Deployment cache for Docker files.
+    Deployment cache for Docker files.
 * [Azure App Service](https://azure.microsoft.com/en-us/services/app-service/): 
-	Docker Container Host
+    Docker Container Host
 * [Azure SQL Server](https://azure.microsoft.com/en-us/services/sql-database/campaign/): 
-	Survey and Identity data storage.
+    Survey and Identity data storage.
 * [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/): 
-	Encrypted secrets management.
+    Encrypted secrets management.
 * [Azure Storage](https://azure.microsoft.com/en-us/services/storage/): 
-	Blob storage for encrypted secrets.
+    Blob storage for encrypted secrets.
 * [Azure Active Directory](https://azure.microsoft.com/en-us/services/active-directory/): 
-	Used for managing the client credentials to connect the App Service to the 
-	Azure Key Vault and Azure Storage.
+    Used for managing the client credentials to connect the App Service to the 
+    Azure Key Vault and Azure Storage.
 
 ## Deployment
 
@@ -61,9 +61,9 @@ from Microsoft.
 * Use [User Secrets Locally](WelcomeSite/Secrets.md) for local development.
 * Create [Secrets in GitHub](https://docs.github.com/en/actions/reference/encrypted-secrets) 
   for GitHub Actions
-	* AZURE_PASSWORD: Client Secret for pushing to Azure Container Registry
-	* AZURE_USERNAME: Client Login for pushing to Azure Container Registry
-	* AZURE_TENANT: Tenant ID for pushing to Azure Container Registry
+    * AZURE_PASSWORD: Client Secret for pushing to Azure Container Registry
+    * AZURE_USERNAME: Client Login for pushing to Azure Container Registry
+    * AZURE_TENANT: Tenant ID for pushing to Azure Container Registry
 
 ## Interesting Bits
 
