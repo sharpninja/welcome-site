@@ -36,7 +36,10 @@ namespace WelcomeSite.Shared
             get => _questionId;
             set
             {
-                if (_questionId == value) return;
+                if (_questionId == value)
+                {
+                    return;
+                }
 
                 _isNew = value == default;
 
@@ -163,11 +166,9 @@ namespace WelcomeSite.Shared
 
                 Question.QuestionText = Editor.Value;
 
-                var result = wasNew switch
-                {
-                    true => DefaultContext.Add<SurveyQuestion>(Question),
-                    _ => DefaultContext.Update<SurveyQuestion>(Question)
-                };
+                var result = wasNew
+                    ? DefaultContext.Add<SurveyQuestion>(Question)
+                    : DefaultContext.Update<SurveyQuestion>(Question);
 
                 if (result != null)
                 {

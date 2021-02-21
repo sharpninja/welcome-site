@@ -17,9 +17,9 @@ namespace WelcomeSite.Shared
     public partial class Report
     {
         // Property backers
-        IEnumerable<SurveyResponse> _responses = null;
-        private SfGrid<SurveyResponse> _grid = null;
-        private SfButton _button = null;
+        IEnumerable<SurveyResponse> _responses;
+        private SfGrid<SurveyResponse> _grid;
+        private SfButton _button;
 
         private IEnumerable<SurveyResponse> Responses
         {

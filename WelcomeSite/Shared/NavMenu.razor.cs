@@ -20,7 +20,7 @@ namespace WelcomeSite.Shared
     {
         // Property Backing Fields
         private SidebarPosition _sbPosition = SidebarPosition.Left;
-        private bool _sidebarVisibility = false;
+        private bool _sidebarVisibility;
 
         [CascadingParameter]
         private Task<AuthenticationState> authenticationStateTask { get; set; }
@@ -35,7 +35,7 @@ namespace WelcomeSite.Shared
         SfDialog SettingsDialog { get; set; }
 
         private Dictionary<string, object> HtmlAttribute { get; set; } =
-            new Dictionary<string, object>()
+            new Dictionary<string, object>
             {
                  {"class", "default-sidebar" }
             };
@@ -93,7 +93,10 @@ namespace WelcomeSite.Shared
 
             public static void Save(NavMenu parent)
             {
-                if (parent.Respondent is null) return;
+                if (parent.Respondent is null)
+                {
+                    return;
+                }
 
                 var settings = new Settings
                 {
@@ -129,7 +132,7 @@ namespace WelcomeSite.Shared
         /// <returns><seealso cref="Task"/></returns>
         private async Task SetIsAdminUser()
         {
-            var authState = await authenticationStateTask;
+            var authState = await authenticationStateTask.ConfigureAwait(false);
             var user = authState.User;
 
             if (user.Identity.IsAuthenticated)
