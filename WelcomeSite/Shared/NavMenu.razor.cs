@@ -117,7 +117,10 @@ namespace WelcomeSite.Shared
             {
                 var json = parent.Respondent.Preferneces;
 
-                if (string.IsNullOrWhiteSpace(json)) return;
+                if (string.IsNullOrWhiteSpace(json))
+                {
+                    return;
+                }
 
                 var settings = JsonConvert.DeserializeObject<Settings>(json);
 
@@ -196,7 +199,7 @@ namespace WelcomeSite.Shared
         /// <inheritdoc/>
         protected override async Task OnInitializedAsync()
         {
-            var authState = await authenticationStateTask;
+            var authState = await authenticationStateTask.ConfigureAwait(false);
             var user = authState.User;
 
             if (user.Identity.IsAuthenticated)
@@ -207,7 +210,7 @@ namespace WelcomeSite.Shared
                 Settings.Load(this);
             }
 
-            await SetIsAdminUser();
+            await SetIsAdminUser().ConfigureAwait(false);
 
             await base.OnInitializedAsync();
         }

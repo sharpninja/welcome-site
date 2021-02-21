@@ -204,7 +204,7 @@ namespace WelcomeSite.Shared
 
         protected override async Task OnInitializedAsync()
         {
-            var authState = await authenticationStateTask;
+            var authState = await authenticationStateTask.ConfigureAwait(false);
             var user = authState.User;
 
             var cookie = Request.Cookies["Respondent"];
