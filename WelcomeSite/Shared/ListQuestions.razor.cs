@@ -9,7 +9,7 @@ namespace WelcomeSite.Shared
 {
     public partial class ListQuestions
     {
-        private IEnumerable<SurveyQuestion> _dataSource = null;
+        private IEnumerable<SurveyQuestion> _dataSource;
 
         public IEnumerable<SurveyQuestion> DataSource => _dataSource ??=
             DefaultContext.SurveyQuestions.OrderBy(q => q.QuestionOrder);
@@ -22,7 +22,6 @@ namespace WelcomeSite.Shared
 
         public void OnClick()
         {
-            //NavigationManager.NavigateTo("/editor");
             NavManager.NavigateTo<Editor>();
         }
     }
