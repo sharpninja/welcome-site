@@ -211,6 +211,13 @@
     display: none;
 }
 
+.sf-new .container-fluid,
+.sf-new .container-fluid .control-section,
+#sidebar-section,
+.description-section .sb-rightpane-padding {
+    padding: 0;
+}
+
 .sf-new .sb-right-pane.e-view {
     margin-left: 0 !important;
 }
@@ -221,10 +228,6 @@
 
 #content-tab.sb-content-tab {
     height: 100% !important;
-}
-
-.sf-new .container-fluid, .sf-new .container-fluid .control-section, #sidebar-section, .description-section .sb-rightpane-padding {
-    padding: 0;
 }
 
 .sb-component-name.sb-rightpane-padding {
