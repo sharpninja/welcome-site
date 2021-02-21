@@ -40,8 +40,8 @@ namespace WelcomeSite.Shared
                  {"class", "default-sidebar" }
             };
 
-        private bool IsLoggedIn { get; set; } = false;
-        private bool IsAdminUser { get; set; } = false;
+        private bool IsLoggedIn { get; set; }
+        private bool IsAdminUser { get; set; }
         private string Hamburgerclass { get; set; } = "e-icons e-nav default";
         private string Toprowclass { get; set; } = "top-row left";
 
@@ -78,7 +78,7 @@ namespace WelcomeSite.Shared
             }
         }
 
-        private bool DialogVisibility { get; set; } = false;
+        private bool DialogVisibility { get; set; }
         private bool ButtonVisibility { get; set; } = true;
         private string CenterX { get; set; }
         private string CenterY { get; set; }

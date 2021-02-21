@@ -86,8 +86,6 @@ namespace WelcomeSite
             // JSInterop Helpers for getting Browser Info.
             services.AddScoped<BrowserService>();
 
-            //services.AddControllers();
-
             // DbContext Registration.
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
