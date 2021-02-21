@@ -1,14 +1,10 @@
-﻿@using Syncfusion.Blazor.RichTextEditor
-@using Syncfusion.Blazor.Inputs
-@using Syncfusion.Blazor.Notifications
-@using Syncfusion.Blazor.Buttons
-@using Syncfusion.Blazor.Notifications.Internal
+﻿@using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Grids
-@using SelectionType = Syncfusion.Blazor.Grids.SelectionType
-@using Microsoft.EntityFrameworkCore
 @using Microsoft.Extensions.Logging
+@using WelcomeSite.Data
+@using SelectionType = Syncfusion.Blazor.Grids.SelectionType
 
-@inject WelcomeSite.Data.ApplicationDbContext DefaultContext
+@inject ApplicationDbContext DefaultContext
 @inject ILogger<Report> Logger
 
 <h1>Reports</h1>

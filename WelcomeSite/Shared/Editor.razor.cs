@@ -7,29 +7,30 @@ using System.Threading.Tasks;
 
 namespace WelcomeSite.Shared
 {
+    /// <summary>
+    /// Code behind of the editor wrapper.
+    /// </summary>
     public partial class Editor
     {
+        /// <summary>
+        /// Injected <see cref="NavManager"/>
+        /// </summary>
         [Inject]
-        public WelcomeSite.Services.NavManager NavManager
+        public Services.NavManager NavManager
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Page Initialized
+        /// </summary>
         protected override void OnInitialized()
         {
-            _questionId = NavManager.Args.Cast<Guid>().FirstOrDefault();
+            QuestionId = NavManager.Args.Cast<Guid>().FirstOrDefault();
             base.OnInitialized();
         }
 
-        private Guid _questionId { get; set; }
-
-
-        [Parameter]
-        public String QuestionID
-        {
-            get => _questionId.ToString() ?? Guid.Empty.ToString();
-            set => _questionId = Guid.Parse(value ?? Guid.Empty.ToString());
-        }
+        private Guid QuestionId { get; set; }
     }
 }

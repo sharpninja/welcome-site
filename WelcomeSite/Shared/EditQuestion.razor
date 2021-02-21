@@ -20,5 +20,6 @@
 <SfButton @onclick="@Save" Disabled="@IsDisabled" IconPosition="@IconPosition.Left" IconCss="e-icons e-save" IsPrimary="true">Save</SfButton>
 
 <SfToast @ref="@Toast" Title="Result" Icon="e-save">
-    <ToastPosition X="Right" Y="Bottom"></ToastPosition>    
+    <ToastPosition X="Right" Y="Bottom"></ToastPosition>   
+    @Status
 </SfToast>

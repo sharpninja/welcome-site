@@ -1,38 +1,52 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+
+using Newtonsoft.Json;
+
+using Syncfusion.Blazor.Navigations;
+using Syncfusion.Blazor.Popups;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Syncfusion.Blazor.Navigations;
-using Syncfusion.Blazor.Buttons;
-using Syncfusion.Blazor.Popups;
-using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Components;
 
+using WelcomeSite.Data;
 using WelcomeSite.Services;
-using WelcomeSite.Pages;
-using Microsoft.JSInterop;
-using Microsoft.AspNetCore.Http;
 
 namespace WelcomeSite.Shared
 {
     public partial class NavMenu
     {
-        [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        // Property Backing Fields
+        private SidebarPosition _sbPosition = SidebarPosition.Left;
+        private bool _sidebarVisibility = false;
+
+        [CascadingParameter]
+        private Task<AuthenticationState> authenticationStateTask { get; set; }
 
         [Inject]
         public NavManager NavManager { get; set; }
 
-        SfSidebar SidebarObj;
-        SfDialog Dialog;
-        public string Leftbtn = "Left";
-        public string Hamburgerclass = "e-icons e-nav default";
-        public string Toprowclass { get; set; } = "top-row left";
+        [Inject]
+        public ApplicationDbContext DefaultContext { get; set; }
 
-        private SidebarPosition _sbPosition = SidebarPosition.Left;
+        SfSidebar SidebarObj { get; set; }
+        SfDialog SettingsDialog { get; set; }
 
-        public SidebarPosition Position 
-        { 
+        private Dictionary<string, object> HtmlAttribute { get; set; } =
+            new Dictionary<string, object>()
+            {
+                 {"class", "default-sidebar" }
+            };
+
+        private bool IsLoggedIn { get; set; } = false;
+        private bool IsAdminUser { get; set; } = false;
+        private string Hamburgerclass { get; set; } = "e-icons e-nav default";
+        private string Toprowclass { get; set; } = "top-row left";
+
+        private SidebarPosition Position
+        {
             get => _sbPosition;
             set
             {
@@ -46,74 +60,148 @@ namespace WelcomeSite.Shared
 
                     StateHasChanged();
 
-                    Task.Run(async () =>
-                    {
-                        await JSRuntime.InvokeAsync<string>(
-                            "blazorExtensions.WriteCookie",
-                            "Position",
-                            value.ToString(),
-                            30);
-                    });
+                    Settings.Save(this);
                 }
             }
-        } 
-        public bool SidebarToggle = false;
-        private bool Visibility { get; set; } = false;
-        private bool ShowButton { get; set; } = true;
-
-        private SfRadioButton<bool> LeftRadio { get; set; }
-
-        private void CheckedChanged(ChangeArgs<bool> e)
-        {
-            IsChecked = !IsChecked;
         }
 
+        private bool SidebarVisibility
+        {
+            get => _sidebarVisibility;
+            set
+            {
+                if (_sidebarVisibility != value)
+                {
+                    _sidebarVisibility = value;
+                    Settings.Save(this);
+                }
+            }
+        }
+
+        private bool DialogVisibility { get; set; } = false;
+        private bool ButtonVisibility { get; set; } = true;
+        private string CenterX { get; set; }
+        private string CenterY { get; set; }
+        private bool IsChecked { get; set; }
+
+        private Respondent Respondent { get; set; }
+
+        public class Settings
+        {
+            public SidebarPosition Position { get; set; }
+            public bool SidebarVisibility { get; set; }
+
+            public static void Save(NavMenu parent)
+            {
+                if (parent.Respondent is null) return;
+
+                var settings = new Settings
+                {
+                    Position = parent.Position,
+                    SidebarVisibility = parent.SidebarVisibility
+                };
+
+                var json = JsonConvert.SerializeObject(settings);
+
+                parent.Respondent.Preferneces = json;
+
+                parent.DefaultContext.Update(parent.Respondent);
+                parent.DefaultContext.SaveChanges(true);
+
+            }
+
+            public static void Load(NavMenu parent)
+            {
+                var json = parent.Respondent.Preferneces;
+
+                if (string.IsNullOrWhiteSpace(json)) return;
+
+                var settings = JsonConvert.DeserializeObject<Settings>(json);
+
+                parent.Position = settings.Position;
+                parent.SidebarVisibility = settings.SidebarVisibility;
+            }
+        }
+
+        /// <summary>
+        /// Set the <see cref="IsAdminUser"/> value;
+        /// </summary>
+        /// <returns><seealso cref="Task"/></returns>
+        private async Task SetIsAdminUser()
+        {
+            var authState = await authenticationStateTask;
+            var user = authState.User;
+
+            if (user.Identity.IsAuthenticated)
+            {
+                IsLoggedIn = true;
+
+                var admin = Startup.ApplicationConfiguration["AdminEmail"];
+                IsAdminUser = user.Identity.Name == admin;
+
+            }
+            else
+            {
+                IsLoggedIn = false;
+                IsAdminUser = false;
+            }
+
+            StateHasChanged();
+        }
+
+        /// <summary>
+        /// Save Contents of Dialog
+        /// </summary>
         private void OnBtnSaveClick()
         {
             Position = IsChecked ? SidebarPosition.Left : SidebarPosition.Right;
-            Dialog.Hide();
+            SettingsDialog.Hide();
         }
+
+        /// <summary>
+        /// Cancel Dialog.
+        /// </summary>
         private void OnCancel()
         {
-            Dialog.Hide();
-        }
-        private void OnBtnClick()
-        {
-            this.Visibility = true;
-        }
-        private void DialogOpen(Object args)
-        {
-            this.ShowButton = false;
-        }
-        private void DialogClose(Object args)
-        {
-            this.ShowButton = true;
+            SettingsDialog.Hide();
         }
 
-        public void Show()
+        /// <summary>
+        /// Show Settings from Button Click
+        /// </summary>
+        private void OnShowSettingsBtnClick()
         {
-            SidebarToggle = true;
-        }
-        public void Close()
-        {
-            SidebarToggle = false;
-        }
-        public void Toggle()
-        {
-            SidebarToggle = !SidebarToggle;
+            SettingsDialog.Show(false);
         }
 
-        [Inject]
-        public IHttpContextAccessor HttpContextAccessor { get; set; }
-        private HttpRequest Request => HttpContextAccessor.HttpContext.Request;
+        /// <summary>
+        /// Close the Sidebar.
+        /// </summary>
+        private void CloseSidebar()
+        {
+            SidebarVisibility = false;
+        }
 
+        /// <summary>
+        /// Toggle the Sidebar.
+        /// </summary>
+        private void ToggleSidebar()
+        {
+            SidebarVisibility = !SidebarVisibility;
+        }
+
+        /// <inheritdoc/>
         protected override async Task OnInitializedAsync()
         {
-            var cookie = Request.Cookies["Position"];
+            var authState = await authenticationStateTask;
+            var user = authState.User;
 
-            if (cookie is not null)
+            if (user.Identity.IsAuthenticated)
             {
-                Position = Enum.Parse<SidebarPosition>(cookie);
+                var email = user.Identity.Name;
+                Respondent = DefaultContext.Respondents.FirstOrDefault(r => r.EmailAddress == email);
+
+                Settings.Load(this);
             }
 
             await SetIsAdminUser();
@@ -121,69 +209,40 @@ namespace WelcomeSite.Shared
             await base.OnInitializedAsync();
         }
 
-        protected override void OnAfterRender(bool firstRender)
+        /// <inheritdoc/>
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             base.OnAfterRender(firstRender);
 
-            Task.Run(async () => { 
-                var dims = await Service.GetDimensions();
-                CenterX = (dims.Width / 2.0f - 125.0f).ToString("N1");
-                CenterY = (dims.Height / 2.0f - 125.0f).ToString("N1");
-            });
+            var dims = await Service.GetDimensions();
+            CenterX = (dims.Width / 2.0f - 125.0f).ToString("N1");
+            CenterY = (dims.Height / 2.0f - 125.0f).ToString("N1");
         }
-
-        public void PositionChange(Syncfusion.Blazor.Buttons.ChangeArgs<string> args)
-        {
-            if (args.Value == "Left")
-            {
-                this.Position = SidebarPosition.Left;
-                this.Hamburgerclass = "e-icons e-nav default";
-                Toprowclass = "top-row left";
-            }
-            else
-            {
-                this.Position = SidebarPosition.Right;
-                this.Hamburgerclass = "e-icons e-nav default e-rtl";
-                Toprowclass = "top-row right";
-            }
-        }
-        Dictionary<string, object> HtmlAttribute = new Dictionary<string, object>()
-{
-        {"class", "default-sidebar" }
-    };
 
         private void GoHome()
         {
-            //NavigationManager.NavigateTo("/", true);
             NavManager.NavigateTo<Welcome>();
         }
 
         private void GoLinks()
         {
-            //NavigationManager.NavigateTo("/links", true);
             NavManager.NavigateTo<Links>();
         }
 
         private void GoSurvey()
         {
-            //NavigationManager.NavigateTo("/survey", true);
             NavManager.NavigateTo<Survey>();
         }
 
         private void GoList()
         {
-            //NavigationManager.NavigateTo("/list", true);
             NavManager.NavigateTo<ListQuestions>();
         }
 
         private void GoResults()
         {
-            //NavigationManager.NavigateTo("/report", true);
             NavManager.NavigateTo<Report>();
         }
 
-        private string CenterX { get; set; }
-        private string CenterY { get; set; }
-        public bool IsChecked { get; private set; }
     }
 }

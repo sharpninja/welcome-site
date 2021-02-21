@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 using Newtonsoft.Json;
 
-namespace WelcomeSite
+namespace WelcomeSite.Data
 {
     /// <summary>
     /// A response by a single <see cref="Respondent"/>
@@ -26,7 +26,7 @@ namespace WelcomeSite
         /// <summary>
         /// Related <see cref="Respondent"/>.
         /// </summary>
-        public Respondent Respondent {get;set;}
+        public Respondent Respondent { get; set; }
 
         /// <summary>
         /// Foreign Key to <see cref="SurveyQuestion"/>.

@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace WelcomeSite
+namespace WelcomeSite.Data
 {
     /// <summary>
     /// Respondent is an individual responding to the survey.
@@ -26,7 +26,7 @@ namespace WelcomeSite
             set
             {
                 respondentID = value;
-                if(string.IsNullOrEmpty(EmailAddress))
+                if (string.IsNullOrEmpty(EmailAddress))
                 {
                     EmailAddress = $"{value}@mailinator.com";
                 }

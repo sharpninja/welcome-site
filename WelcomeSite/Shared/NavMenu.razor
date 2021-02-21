@@ -8,20 +8,20 @@
 @inject IJSRuntime JSRuntime
 
 <div class="@Toprowclass">
-    <span id="hamburger" @onclick="@Toggle" class="@Hamburgerclass"></span>
-    @if (this.ShowButton)
+    <span id="hamburger" @onclick="@ToggleSidebar" class="@Hamburgerclass"></span>
+    @if (ButtonVisibility)
     {
-        <span class="e-icons e-settings" @onclick="@OnBtnClick"></span>
+        <span class="e-icons e-settings" @onclick="@OnShowSettingsBtnClick"></span>
     }
     <LoginDisplay />
 </div>
 <SfSidebar @ref="SidebarObj" Width="250px" EnablePersistence="true" Target=".main-content"
            MediaQuery="(min-width:600px)"
-           Position="@Position" HtmlAttributes="@HtmlAttribute" @bind-IsOpen="SidebarToggle">
+           Position="@Position" HtmlAttributes="@HtmlAttribute" @bind-IsOpen="SidebarVisibility">
     <ChildContent>
         <div class="title-header">
             <div style="display:inline-block"> Site Menu </div>
-            <span id="close" @onclick="@Close" class="e-icons e-close"></span>
+            <span id="close" @onclick="@CloseSidebar" class="e-icons e-close"></span>
         </div>
         <div style="padding-left: 10px;padding-top: 15px;">
             @if (!IsLoggedIn)
@@ -53,7 +53,7 @@
     </ChildContent>
 </SfSidebar>
 
-<SfDialog @ref="Dialog" Target="#target" Width="250px" MinHeight="250px" ShowCloseIcon="true" @bind-Visible="Visibility">
+<SfDialog @ref="SettingsDialog" Target="#target" Width="250px" MinHeight="250px" ShowCloseIcon="true" @bind-Visible="DialogVisibility">
     <DialogTemplates>
         <Header>Sidebar Settings</Header>
         <Content>
@@ -69,43 +69,9 @@
             </p>
         </Content>
     </DialogTemplates>
-    <DialogEvents OnOpen="@DialogOpen" Closed="@DialogClose"></DialogEvents>
     <DialogButtons>
         <DialogButton IsPrimary="true" Content="Save" OnClick="@OnBtnSaveClick" />
         <DialogButton IsPrimary="false" Content="Cancel" OnClick="@OnCancel" />
     </DialogButtons>
     <DialogPositionData X="@CenterX" Y="@CenterY" />
 </SfDialog>
-
-@code
-{
-    private bool IsLoggedIn { get; set; } = false;
-    private bool IsAdminUser { get; set; } = false;
-
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
-
-    private async Task SetIsAdminUser()
-    {
-        var authState = await authenticationStateTask;
-        var user = authState.User;
-
-        if (user.Identity.IsAuthenticated)
-        {
-            IsLoggedIn = true;
-            IsAdminUser = user.Identity.Name switch
-            {
-                "ninja@thesharp.ninja" => true,
-                _ => false
-            };
-
-            StateHasChanged();
-        }
-        else
-        {
-            IsLoggedIn = false;
-            IsAdminUser = false;
-            StateHasChanged();
-        }
-    }
-}

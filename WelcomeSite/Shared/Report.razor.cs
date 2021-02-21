@@ -4,20 +4,26 @@ using Microsoft.Extensions.Logging;
 using Syncfusion.Blazor.Buttons;
 using Syncfusion.Blazor.Grids;
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
+using WelcomeSite.Data;
 
 namespace WelcomeSite.Shared
 {
+    /// <summary>
+    /// Displays Survey Results
+    /// </summary>
     public partial class Report
     {
-        SfButton Button { get; set; }
+        // Property backers
         IEnumerable<SurveyResponse> _responses = null;
+        private SfGrid<SurveyResponse> _grid = null;
+        private SfButton _button = null;
 
         private IEnumerable<SurveyResponse> Responses
         {
+            // Populate Responses if necessary.
             get => _responses ??=
                 DefaultContext.SurveyResponses
                     .Where(r => !string.IsNullOrWhiteSpace(r.ResponseText))
@@ -30,7 +36,11 @@ namespace WelcomeSite.Shared
             set => _responses = value;
         }
 
-        private SfGrid<SurveyResponse> _grid = null;
+        public SfButton Button
+        {
+            get => _button;
+            set => _button = value;
+        }
 
         private SfGrid<SurveyResponse> DataGrid
         {
@@ -38,13 +48,17 @@ namespace WelcomeSite.Shared
             set => _grid = value;
         }
 
+        /// <summary>
+        /// Delete the selected responses.
+        /// </summary>
         private void DeleteSelected()
         {
-            if (DataGrid.SelectedRecords.Any())
+            if (_grid.SelectedRecords.Any())
             {
-                var toDelete = DataGrid.SelectedRecords;
+                var toDelete = _grid.SelectedRecords;
                 toDelete.ForEach(td =>
                 {
+                    // Remove foreign references first!!!
                     td.Question = null;
                     td.Respondent = null;
                     td.QuestionID = default;
@@ -57,7 +71,7 @@ namespace WelcomeSite.Shared
 
                 Logger.LogInformation($"Deleted {rows} SurveyResponses");
 
-                Responses = DefaultContext.SurveyResponses
+                _responses = DefaultContext.SurveyResponses
                     .Where(r => !string.IsNullOrWhiteSpace(r.ResponseText))
                     .Include(r => r.Question)
                     .Include(r => r.Respondent)
@@ -66,7 +80,7 @@ namespace WelcomeSite.Shared
                     .ToList()
                     .Where(r => DefaultContext.Entry<SurveyResponse>(r).State != EntityState.Deleted);
 
-                DataGrid.Refresh();
+                _grid.Refresh();
             }
         }
     }

@@ -24,8 +24,6 @@ namespace WelcomeSite.Shared
 {
     public partial class DisplayQuestion
     {
-        private bool _isNew = true;
-        private Guid _questionId;
         private SurveyQuestion _question;
         private SurveyResponse _response;
         private Respondent _respondent;

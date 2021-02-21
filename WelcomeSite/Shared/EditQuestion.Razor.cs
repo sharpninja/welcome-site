@@ -12,15 +12,24 @@ using WelcomeSite.Data;
 
 namespace WelcomeSite.Shared
 {
+    /// <summary>
+    /// Code behind of the editor.
+    /// </summary>
     public partial class EditQuestion
     {
         private bool _isNew = true;
         private Guid _questionId;
         private SurveyQuestion _question;
 
+        /// <summary>
+        /// Injected logger.
+        /// </summary>
         [Inject]
         public ILogger<EditQuestion> Logger { get; set; }
 
+        /// <summary>
+        /// Question Key Property
+        /// </summary>
         [Parameter]
         public Guid QuestionID
         {
@@ -36,6 +45,9 @@ namespace WelcomeSite.Shared
             }
         }
 
+        /// <summary>
+        /// Question Entity Property
+        /// </summary>
         [Parameter]
         public SurveyQuestion Question
         {
@@ -43,30 +55,39 @@ namespace WelcomeSite.Shared
             set
             {
                 _question = value;
-                this.StateHasChanged();
+                StateHasChanged();
             }
         }
 
+        /// <summary>
+        /// Question Title property.
+        /// </summary>
         public string QuestionTitle
         {
             get => Question.QuestionTitle;
             set
             {
                 Question.QuestionTitle = value;
-                this.StateHasChanged();
+                StateHasChanged();
             }
         }
 
+        /// <summary>
+        /// Question Text property
+        /// </summary>
         public string QuestionText
         {
             get => Question.QuestionText;
             set
             {
                 Question.QuestionText = value;
-                this.StateHasChanged();
+                StateHasChanged();
             }
         }
 
+        /// <summary>
+        /// Question Order property.
+        /// </summary>
         public decimal QuestionOrder
         {
             get => Question.QuestionOrder;
@@ -76,37 +97,52 @@ namespace WelcomeSite.Shared
                 (DefaultContext.SurveyQuestions.Any(q => q.QuestionOrder == value)) ? "Error" : "";
 
                 Question.QuestionOrder = value;
-                this.StateHasChanged();
+                StateHasChanged();
             }
         }
 
+        /// <summary>
+        /// Css based on the QuestionOrder value.
+        /// </summary>
         public string QuestionOrderClass { get; set; } = "";
 
+        /// <summary>
+        /// Database Context
+        /// </summary>
         [Inject]
         ApplicationDbContext DefaultContext
         {
             get; set;
         }
 
-        [Parameter]
-        public Action<Guid> QuestionIDChanged { get; set; }
-
+        /// <summary>
+        /// Ref to the editor.
+        /// </summary>
         SfRichTextEditor Editor { get; set; }
 
+        /// <summary>
+        /// Don't allow saving an empty question.
+        /// </summary>
         public bool IsDisabled
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Syncs the model and manages the Save button state.
+        /// </summary>
         public void OnChange()
         {
             Question.QuestionText = Editor.Value;
 
             IsDisabled = string.IsNullOrWhiteSpace(Question.QuestionText);
-            this.StateHasChanged();
+            StateHasChanged();
         }
 
+        /// <summary>
+        /// Saves current question.
+        /// </summary>
         public void Save()
         {
             if (!IsDisabled)
@@ -146,9 +182,8 @@ namespace WelcomeSite.Shared
                     Logger.LogDebug(result.DebugView.LongView);
 
                     Status = $"Saved {rows} records at {DateTime.Now.ToLongTimeString()}";
-                    this.StateHasChanged();
+                    StateHasChanged();
 
-                    Toast.Content = Status;
                     Toast.Show();
 
                     NavManager.NavigateTo<ListQuestions>();
@@ -156,12 +191,18 @@ namespace WelcomeSite.Shared
             }
         }
 
+        /// <summary>
+        /// Status of the operation.
+        /// </summary>
         public string Status
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Accessor for the Toast notifications.
+        /// </summary>
         public SfToast Toast { get; set; }
     }
 }

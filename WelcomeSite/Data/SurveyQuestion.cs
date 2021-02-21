@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Linq;
-using System.Net;
-
-using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Newtonsoft.Json;
-using WelcomeSite.Data;
 
-namespace WelcomeSite
+namespace WelcomeSite.Data
 {
     /// <summary>
     /// Contains a single Survey Question and its

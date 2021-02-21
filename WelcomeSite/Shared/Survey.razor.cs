@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WelcomeSite.Shared
+﻿namespace WelcomeSite.Shared
 {
     public partial class Survey
     {

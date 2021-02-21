@@ -2,12 +2,7 @@
 
 @using WelcomeSite.Services
 
-@using Microsoft.AspNetCore.Http
-@using Microsoft.AspNetCore.Components.Routing
-
 @inject NavManager NavManager
-@inject NavigationManager NavigationManager
-@inject IHttpContextAccessor HttpContextAccessor
 
 @renderWidget(CurrentComponent)
 
@@ -25,7 +20,7 @@
         NavManager.RenderWidget += (o, t) =>
         {
             CurrentComponent = t;
-            InvokeAsync(this.StateHasChanged);            
+            InvokeAsync(StateHasChanged);            
         };
 
         base.OnInitialized();
