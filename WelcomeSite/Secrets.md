@@ -1,6 +1,7 @@
 ﻿# Site Secrets
 
-You need to setup [User Secrets]() to develop the code.  You should add the following values to this file.
+You need to setup [User Secrets](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-5.0&tabs=windows) 
+to develop the code.  You should add the following values to this file.
 
 ```json
 {

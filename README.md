@@ -58,7 +58,8 @@ from Microsoft.
 ### Notes
 
 * Use [User Secrets Locally](WelcomeSite/Secrets.md) for local development.
-* Create [Secrets in GitHub]() for GitHub Actions
+* Create [Secrets in GitHub](https://docs.github.com/en/actions/reference/encrypted-secrets) 
+  for GitHub Actions
 	* AZURE_PASSWORD: Client Secret for pushing to Azure Container Registry
 	* AZURE_USERNAME: Client Login for pushing to Azure Container Registry
 	* AZURE_TENANT: Tenant ID for pushing to Azure Container Registry
