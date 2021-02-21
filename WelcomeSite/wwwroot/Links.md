@@ -12,4 +12,3 @@
 * [GitHub](http://www.github.com/sharpninja)
 * [Stack Overflow](https://stackexchange.com/users/7413216/the-sharp-ninja)
 * [LeetCode](https://leetcode.com/sharp_ninja/)
-*
