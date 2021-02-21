@@ -12,24 +12,24 @@
     right: 0;
     z-index: 1;
 }
-    .top-row.left {
-        flex-flow: row-reverse nowrap;
-    }
 
-    .top-row.right {
-        flex-flow: row nowrap;
-    }
+.top-row.left {
+    flex-flow: row-reverse nowrap;
+}
 
-   .top-row ::deep a, .top-row .btn-link {
-        white-space: nowrap;
-        margin-left: 1.5rem;
-    }
+.top-row.right {
+    flex-flow: row nowrap;
+}
 
-    .top-row a:first-child {
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+.top-row ::deep a, .top-row .btn-link {
+    white-space: nowrap;
+    margin-left: 1.5rem;
+}
 
+.top-row a:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .e-nav {
     font-size: 25px;
@@ -38,9 +38,9 @@
     padding: 9px 15px 0;
 }
 
-    .e-nav:before {
-        content: '\e10d';
-    }
+.e-nav:before {
+    content: '\e10d';
+}
 
 .e-close {
     color: unset !important;
@@ -50,9 +50,9 @@
     padding: 9px 15px 0;
 }
 
-    .e-close:before {
-        content: '\e745';
-    }
+.e-close:before {
+    content: '\e745';
+}
 
 .e-settings {
     font-size: 25px;
@@ -61,9 +61,9 @@
     padding: 9px 15px 0;
 }
 
-    .e-settings:before {
-        content: '\e679';
-    }
+.e-settings:before {
+    content: '\e679';
+}
 
 .navbar-brand {
     font-size: 1.1rem;
@@ -81,30 +81,30 @@
     padding-bottom: 0.5rem;
 }
 
-    .nav-item:first-of-type {
-        padding-top: 1rem;
-    }
+.nav-item:first-of-type {
+    padding-top: 1rem;
+}
 
-    .nav-item:last-of-type {
-        padding-bottom: 1rem;
-    }
+.nav-item:last-of-type {
+    padding-bottom: 1rem;
+}
 
-    .nav-item ::deep a {
-        color: #d7d7d7;
-        border-radius: 4px;
-        height: 3rem;
-        display: flex;
-        align-items: center;
-        line-height: 3rem;
-    }
+.nav-item ::deep a {
+    color: #d7d7d7;
+    border-radius: 4px;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    line-height: 3rem;
+}
 
 .nav-item ::deep a.active {
-    background-color: rgba(255,255,255,0.25);
+    background-color: rgba(255, 255, 255, 0.25);
     color: white;
 }
 
 .nav-item ::deep a:hover {
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     color: white;
 }
 
@@ -115,12 +115,16 @@
 }
 
 /* sample-level styles */
+
 /* custom code start */
+
 .center-align {
     text-align: center;
     padding: 20px;
 }
+
 /* custom code end */
+
 .title {
     text-align: center;
     font-size: 20pt;
@@ -136,7 +140,9 @@
     font-size: 16px;
     padding: 10px;
 }
+
 /* custom code start */
+
 .center {
     text-align: center;
     display: none;
@@ -150,7 +156,6 @@
 }
 
 /* sample-level styles */
-
 
 #wrapper #close:before {
     content: "\e109";
@@ -169,6 +174,7 @@
     float: left;
 }
 */
+
 .title-header {
     color: var(--top-color);
     background-color: var(--top-bg-color);
@@ -184,19 +190,12 @@
 #sb-content-header {
     display: none
 }
+
 /* sample-level styles */
+
 /* for newTab support */
-.sf-new .sb-header,
-.sf-new .sb-bread-crumb,
-.sf-new #action-description,
-.sf-new .sb-action-description,
-.sf-new .e-tab-header,
-.sf-new .description-section,
-.sf-new #description-section,
-.sf-new #description,
-.sf-new #navigation-btn,
-.sf-new .sb-toolbar-splitter,
-.sf-new .sb-footer, .sf-new #left-sidebar, .sb-component-name {
+
+.sf-new .sb-header, .sf-new .sb-bread-crumb, .sf-new #action-description, .sf-new .sb-action-description, .sf-new .e-tab-header, .sf-new .description-section, .sf-new #description-section, .sf-new #description, .sf-new #navigation-btn, .sf-new .sb-toolbar-splitter, .sf-new .sb-footer, .sf-new #left-sidebar, .sb-component-name {
     display: none
 }
 
@@ -216,9 +215,7 @@
     padding-top: 0;
 }
 
-.sf-new .container-fluid,
-.sf-new .container-fluid .control-section,
-#sidebar-section, description-section sb-rightpane-padding {
+.sf-new .container-fluid, .sf-new .container-fluid .control-section, #sidebar-section, description-section sb-rightpane-padding {
     padding: 0;
 }
 
@@ -252,7 +249,6 @@
     font-weight: normal;
     font-style: normal;
 }
-
 
 a, a:hover, .highcontrast #dialog a, .highcontrast #dialog a:hover {
     color: inherit;
